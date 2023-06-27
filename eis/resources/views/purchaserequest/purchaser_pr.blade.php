@@ -180,7 +180,7 @@
                                             <div class="d-flex">
                                                 <div class="me-2" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                                     title="Invoice">
-                                                    <a href="{{ route('purchaserequest/purchaser-invoice', ['pr_id' => $tb_purchaserequest->pr_id]) }}"
+                                                    <a href="{{ route('purchaserequest/purchaser_invoice', ['pr_id' => $tb_purchaserequest->pr_id]) }}"
                                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                                         <!--begin::Svg Icon | path: /var/www/preview.keenthemes.com/kt-products/good/releases/2022-08-13-004438/core/html/src/media/icons/duotune/communication/com002.svg-->
                                                         <span class="svg-icon svg-icon-muted svg-icon-2hx">
