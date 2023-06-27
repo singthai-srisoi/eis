@@ -1,4 +1,5 @@
-
+@extends('template')
+@section('report')
 
 <!DOCTYPE html>
 <html lang="en">
@@ -94,11 +95,12 @@ th {
 
 tr:hover {background-color: #d6d4d4;}
 
-.right-bar {
-    position: absolute;
+ /* .right-bar {
+    position: relative;
     right: 0;
-    top: 0;
-}
+    top: 35vh;
+}  */
+
 </style>
 
 <body>
@@ -107,6 +109,7 @@ tr:hover {background-color: #d6d4d4;}
 
         <!-- Filter -->
         <!-- For sort weekly -->
+        <div class="">
         <div class="col-9 grid-margin">
         <div class="card">
         <div class="card-body">
@@ -122,6 +125,7 @@ tr:hover {background-color: #d6d4d4;}
 <table >
     <thead>
         <tr>
+            <th>Order Id</th>
             <th>Product Code</th>
             <th>Product Name</th>
             <th>Quantity</th>            
@@ -138,22 +142,24 @@ tr:hover {background-color: #d6d4d4;}
         ?>
         @foreach($orders as $order)
         <tr>
+          <td>{{ $order->o_id }}</td>
             <td>{{ $order->prod_code }}</td>
             <td>{{ $order->prod_name }}</td>
             <td>{{ $order->oItem_qty }}</td>
             <td>{{ $order->oItem_totalprice }}</td>
             <td>{{ $order->o_tax }}</td>
-            <td>{{ $order->o_totalAmount }}</td>
+            <td><?php echo $order->oItem_qty*$order->oItem_totalprice*((100+$order->o_tax)/100); ?></td>
         </tr>
         <?php
         $totalQuantity += $order->oItem_qty;
         $totalSubtotal += $order->oItem_totalprice;
-        $totalAmount += $order->o_totalAmount;
+        $totalAmount += $order->oItem_qty*$order->oItem_totalprice*((100+$order->o_tax)/100);
         ?>
         @endforeach
     </tbody>
     <tfoot>
         <tr>
+            <td></td>
             <td></td>
             <td>Total:</td>
             <td>{{ $totalQuantity }}</td>
@@ -167,7 +173,7 @@ tr:hover {background-color: #d6d4d4;}
 </div>
 </div>
 
-<div class="right-bar col-5 grid-margin px-0" style="width: 30vw;">
+<div class="right-bar col-5 grid-margin px-0" style="width: 25vw;">
 <div class="card">
 <div class="card-body">
 <form action="{{ route('dateBetween') }}" method="GET">
@@ -175,14 +181,14 @@ tr:hover {background-color: #d6d4d4;}
                 <div class="form-group row">
                 <label class="col-sm-3 col-form-label" for="">Start Date</label>
                 <div class="col-sm-5 col-form-label">
-                   <input type="date" name="startDate" >
+                   <input type="date" name="startDate" id="startDate" >
                 </div>
                 </div>
 
                 <div class="form-group row">
                 <label class="col-sm-3 col-form-label" for="">End Date</label>
                 <div class="col-sm-5 col-form-label">
-                    <input type="date" name="endDate">
+                    <input type="date" name="endDate" id="endDate">
                 </div>
                 </div>
 
@@ -206,6 +212,22 @@ tr:hover {background-color: #d6d4d4;}
 </div>
 </div>
 </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -213,14 +235,18 @@ tr:hover {background-color: #d6d4d4;}
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="{{ asset('js/table-sortable.js') }}" type="text/javascript"></script>
 <script>
-function PrintElem()
+
+    function PrintElem()
 {
     var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
+    // var endDate = $('#endDate').val();
+    // var startDate = $('#startDate').val();
     mywindow.document.write('<html><head><title>' + document.title  + '</title>');
     mywindow.document.write('</head><body >');
     mywindow.document.write('<h1>Sales Report</h1>');
     mywindow.document.write(document.getElementById('printDiv').innerHTML);
+    //mywindow.document.write('<hr /> start date : '+startDate+'<br /> end date:'+endDate);
     mywindow.document.write('</body></html>');
 
     mywindow.document.close(); // necessary for IE >= 10
@@ -231,8 +257,12 @@ function PrintElem()
 
     return true;
 }
+
+
 </script>
 
 
 </body>
 </html>
+
+@endsection
