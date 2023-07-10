@@ -17,7 +17,7 @@ class tb_purchaserequest extends Model
     public const UPDATED_AT = null;
     public function tb_purchaseorder(): HasOne
     {
-        return $this->hasOne(tb_purchaseorder::class);
+        return $this->hasOne(tb_purchaseorder::class, 'po_prID', 'pr_id');
     }
     public function tb_approval(): BelongsTo
     {

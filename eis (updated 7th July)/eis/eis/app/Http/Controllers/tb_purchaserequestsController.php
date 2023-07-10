@@ -50,9 +50,18 @@ class tb_purchaserequestsController extends Controller
         $search = $request->search;
 
       if($search == ''){
-         $purchaserequests = tb_purchaserequest::orderby('pr_cdate','desc')->where('pr_status','=',2)->limit(5)->get();
+         $purchaserequests = tb_purchaserequest::doesntHave('tb_purchaseorder')->orderby('pr_cdate','desc')->where('pr_status','=',2)->limit(10)->get();
       }else{
-         $purchaserequests = tb_purchaserequest::orderby('pr_cdate','desc')->where('pr_status','=',2)->where('pr_no', 'like', '%' .$search . '%')->limit(5)->get();
+         $purchaserequests = tb_purchaserequest::doesntHave('tb_purchaseorder')->orderby('pr_cdate','desc')->where('pr_status','=',2)->where(function ($query) use ($search) {
+            $query->whereHas('tb_supplier', function ($q) use ($search)  {
+            $q->where('sup_name', 'like', '%' .$search . '%');
+         })->orWhereHas('tb_product', function ($q) use ($search)  {
+            $q->where('prod_name', 'like', '%' .$search . '%');
+         })->orWhere(function ($query) use ($search) {
+            $query->where('pr_id', 'like', '%' .$search . '%')
+                  ->orWhere('pr_cdate', 'like', '%' .$search . '%');
+        });
+        })->limit(10)->get();
       }
 
       $response = array();

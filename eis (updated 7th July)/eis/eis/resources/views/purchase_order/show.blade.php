@@ -32,7 +32,7 @@
                     <!-- begin::Header-->
                     <div class="d-flex justify-content-between flex-column flex-sm-row">
                         <div class="d-block mw-150px ms-sm-auto">
-                            <img alt="Logo" src="assets/media/logos/TSK-Logo-1.png" class="w-100" />
+                            <img alt="Logo" src="assets/media/logos/TSK-Logo.png" class="w-100" />
                         </div>
                         <div class="text-sm-end">
                             <!--begin::Text-->
@@ -266,9 +266,6 @@
                             <!-- begin::Pint-->
                             <button type="button" class="btn btn-success my-1 me-12" onclick="window.print();">Print Invoice</button>
                             <!-- end::Pint-->
-                            <!-- begin::Download-->
-                            <button type="button" class="btn btn-light-success my-1">Download</button>
-                            <!-- end::Download-->
                         </div>
                         <!-- end::Actions-->
                         <!-- begin::Action-->
